@@ -191,8 +191,13 @@ function KarmaReporter (tc, jasmineEnv) {
     // Any errors in top-level afterAll blocks are given here.
     handleGlobalErrors(result)
 
+    // Remove functions from called back results to avoid IPC errors in Electron
+    // https://github.com/twolfson/karma-electron/issues/47
+    let cleanedOrder = Object.assign({}, result.order);
+    delete cleanedOrder.sort;
+
     tc.complete({
-      order: result.order,
+      order: cleanedOrder,
       coverage: window.__coverage__
     })
   }
