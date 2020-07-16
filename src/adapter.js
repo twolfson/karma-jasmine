@@ -193,8 +193,11 @@ function KarmaReporter (tc, jasmineEnv) {
 
     // Remove functions from called back results to avoid IPC errors in Electron
     // https://github.com/twolfson/karma-electron/issues/47
-    let cleanedOrder = Object.assign({}, result.order);
-    delete cleanedOrder.sort;
+    let cleanedOrder
+    if (result.order) {
+      cleanedOrder = Object.assign({}, result.order)
+      delete cleanedOrder.sort
+    }
 
     tc.complete({
       order: cleanedOrder,
